@@ -62,4 +62,27 @@ main:
   expect_equals -1.0 sensor.read_correction
   expect_equals -10 (sensor.read_correction --raw)
 
+  sensor.set_correction --raw 0
+
+  old_id := r46ca01.R46ca01.detect_unit_id bus
+  print "current unit id: $old_id"
+
+  sensor.set_unit_id 5
+  expect_equals 5 (r46ca01.R46ca01.detect_unit_id bus)
+  sensor5 := r46ca01.R46ca01 (bus.station 5)
+  expect (sensor5.read_temperature - temperature).abs < 0.5
+
+  sensor5.set_unit_id 6
+  expect_equals 6 (r46ca01.R46ca01.detect_unit_id bus)
+  sensor6 := r46ca01.R46ca01 (bus.station 6)
+  expect (sensor6.read_temperature - temperature).abs < 0.5
+
+  print "Switching back to old unit id"
+  sensor6.set_unit_id old_id
+
+  if old_id != 5:
+    expect_throw DEADLINE_EXCEEDED_ERROR: sensor5.read_temperature
+  else:
+    expect_throw DEADLINE_EXCEEDED_ERROR: sensor6.read_temperature
+
   print "done"
