@@ -1,1 +1,5 @@
-# Toit Lock File.
+prefixes:
+  r46ca01: ..
+packages:
+  ..:
+    path: ..
