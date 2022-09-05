@@ -1,2 +1,9 @@
 name: r46cA01
 description: Driver for the R46CA01 temperature sensor.
+dependencies:
+  modbus:
+    url: github.com/toitlang/pkg-modbus
+    version: ^2.0.1
+  rs485:
+    url: github.com/toitware/toit-rs485
+    version: ^1.1.0
