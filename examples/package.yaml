@@ -1,1 +1,3 @@
-# Toit Package File.
+dependencies:
+  r46ca01:
+    path: ..
