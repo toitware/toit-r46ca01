@@ -109,7 +109,7 @@ class R46ca01:
 
   Writes the given $value as raw value to the sensor.
   Each unit corresponds to 0.1 degrees Celsius. A positive value
-    increases the temperature, and a negative value decreases it.
+    increases the reported temperature, and a negative value decreases it.
   */
   set_correction --raw value/int:
     if not raw: throw "INVALID_ARGUMENT"
