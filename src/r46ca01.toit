@@ -100,6 +100,8 @@ class R46ca01:
 
   The reported temperature is adjusted by this value. A positive value
     increases the temperature, and a negative value decreases it.
+
+  The correction is stored in non-volatile memory.
   */
   set_correction value/float:
     set_correction --raw (value * 10).to_int
@@ -110,6 +112,8 @@ class R46ca01:
   Writes the given $value as raw value to the sensor.
   Each unit corresponds to 0.1 degrees Celsius. A positive value
     increases the reported temperature, and a negative value decreases it.
+
+  The correction is stored in non-volatile memory.
   */
   set_correction --raw value/int:
     if not raw: throw "INVALID_ARGUMENT"
