@@ -30,7 +30,7 @@ class R46ca01:
   /**
   Creates a new R46CA01 driver.
 
-  The given Modbus $station must be a R46CA01 device.
+  The given Modbus $station must be an R46CA01 device.
   */
   constructor station/modbus.Station:
     registers_ = station.holding_registers
