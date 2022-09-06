@@ -16,5 +16,5 @@ packages:
       rs485: toit-rs485
   toit-rs485:
     url: github.com/toitware/toit-rs485
-    version: 1.1.0
-    hash: 607b0acb6a1e222eb36727c2818b82365b332fa9
+    version: 1.0.1
+    hash: 854d96a9d27b6ce7325a9698001087b292f4b4b5
