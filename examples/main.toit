@@ -26,7 +26,7 @@ main:
       --tx=pin_tx
       --rts=pin_rts
       --baud_rate=r46ca01.R46ca01.DEFAULT_BAUD_RATE
-  bus := modbus.Modbus.rtu rs485_bus --baud_rate=r46ca01.R46ca01.DEFAULT_BAUD_RATE
+  bus := modbus.Modbus.rtu rs485_bus
 
   // Assume that the sensor is the only one on the bus.
   sensor := r46ca01.R46ca01.detect bus
