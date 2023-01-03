@@ -3,7 +3,7 @@ description: Driver for the R46CA01 temperature sensor.
 dependencies:
   modbus:
     url: github.com/toitlang/pkg-modbus
-    version: ^2.0.1
+    version: ^2.2.1
   rs485:
     url: github.com/toitware/toit-rs485
-    version: ^1.0.1
+    version: ^1.2.0

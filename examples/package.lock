@@ -1,4 +1,4 @@
-sdk: ^2.0.0-alpha.21
+sdk: ^2.0.0-alpha.39
 prefixes:
   modbus: pkg-modbus
   r46ca01: ..
@@ -11,11 +11,11 @@ packages:
       rs485: toit-rs485
   pkg-modbus:
     url: github.com/toitlang/pkg-modbus
-    version: 2.1.0
-    hash: 854116ca61a1f6807441b0634a2436290bf44bda
+    version: 2.2.1
+    hash: ebc30dd0299c7eefa7a8270b91fcf593883c88f2
     prefixes:
       rs485: toit-rs485
   toit-rs485:
     url: github.com/toitware/toit-rs485
-    version: 1.0.1
-    hash: 854d96a9d27b6ce7325a9698001087b292f4b4b5
+    version: 1.2.0
+    hash: 8e38736d19dab1d9275568df269f982e6118acec
