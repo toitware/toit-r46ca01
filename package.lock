@@ -1,15 +1,17 @@
-sdk: ^2.0.0-alpha.39
+sdk: ^2.0.0-alpha.118
 prefixes:
   modbus: pkg-modbus
   rs485: toit-rs485
 packages:
   pkg-modbus:
     url: github.com/toitlang/pkg-modbus
-    version: 2.2.1
-    hash: ebc30dd0299c7eefa7a8270b91fcf593883c88f2
+    name: modbus
+    version: 2.2.2
+    hash: aecd7807d787f4ae6c124c7e11500ef46c05a284
     prefixes:
       rs485: toit-rs485
   toit-rs485:
     url: github.com/toitware/toit-rs485
+    name: rs485
     version: 1.2.0
     hash: 8e38736d19dab1d9275568df269f982e6118acec
