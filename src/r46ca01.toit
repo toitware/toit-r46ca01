@@ -11,19 +11,19 @@ import gpio
 A driver for the R46CA01 temperature sensor.
 */
 class R46ca01:
-  static DEFAULT_UNIT_ID ::= 1
-  static DEFAULT_BAUD_RATE ::= 9600
+  static DEFAULT-UNIT-ID ::= 1
+  static DEFAULT-BAUD-RATE ::= 9600
 
-  static TEMPERATURE_ADDRESS_ ::= 0x00
-  static UNIT_ID_ADDRESS_ ::= 0x02
-  static BAUD_RATE_ADDRESS_ ::= 0x03
-  static CORRECTION_ADDRESS_ ::= 0x04
+  static TEMPERATURE-ADDRESS_ ::= 0x00
+  static UNIT-ID-ADDRESS_ ::= 0x02
+  static BAUD-RATE-ADDRESS_ ::= 0x03
+  static CORRECTION-ADDRESS_ ::= 0x04
 
-  static BAUD_RATE_1200_ ::= 0
-  static BAUD_RATE_2400_ ::= 1
-  static BAUD_RATE_4800_ ::= 2
-  static BAUD_RATE_9600_ ::= 3
-  static BAUD_RATE_19200_ ::= 4
+  static BAUD-RATE-1200_ ::= 0
+  static BAUD-RATE-2400_ ::= 1
+  static BAUD-RATE-4800_ ::= 2
+  static BAUD-RATE-9600_ ::= 3
+  static BAUD-RATE-19200_ ::= 4
 
   registers_/modbus.HoldingRegisters
 
@@ -33,16 +33,16 @@ class R46ca01:
   The given Modbus $station must be an R46CA01 device.
   */
   constructor station/modbus.Station:
-    registers_ = station.holding_registers
+    registers_ = station.holding-registers
 
   /**
   Creates a new R46CA01 driver.
 
-  Uses $detect_unit_id to find the unit id of the R46CA01 device.
+  Uses $detect-unit-id to find the unit id of the R46CA01 device.
   The R46CA01 device must be the only device on the bus.
   */
   constructor.detect bus/modbus.Modbus:
-    id := detect_unit_id bus
+    id := detect-unit-id bus
     return R46ca01 (bus.station id)
 
   /**
@@ -50,17 +50,17 @@ class R46ca01:
 
   Note that only one unit must be on the bus when performing this action.
   */
-  static detect_unit_id bus/modbus.Modbus -> int:
-    broadcast_station := bus.station 0xFF
-    return broadcast_station.holding_registers.read_single --address=UNIT_ID_ADDRESS_
+  static detect-unit-id bus/modbus.Modbus -> int:
+    broadcast-station := bus.station 0xFF
+    return broadcast-station.holding-registers.read-single --address=UNIT-ID-ADDRESS_
 
   /**
   Reads the temperature.
 
   Returns the result in degrees Celsius.
   */
-  read_temperature -> float:
-    raw := read_temperature --raw
+  read-temperature -> float:
+    raw := read-temperature --raw
     if raw == 0x8000: throw "NO_DS18B20_OR_ERROR"
     return raw * 0.1
 
@@ -73,17 +73,17 @@ class R46ca01:
 
   Each unit corresponds to 0.1 degrees Celsius.
   */
-  read_temperature --raw/bool -> int:
+  read-temperature --raw/bool -> int:
     if not raw: throw "INVALID_ARGUMENT"
-    return read_ TEMPERATURE_ADDRESS_
+    return read_ TEMPERATURE-ADDRESS_
 
   /**
   Reads the correction value.
 
   Returns the correction value in degrees Celsius.
   */
-  read_correction -> float:
-    return (read_correction --raw) * 0.1
+  read-correction -> float:
+    return (read-correction --raw) * 0.1
 
   /**
   Reads the correction value.
@@ -91,9 +91,9 @@ class R46ca01:
   Returns the raw correction value as reported by the sensor. Each unit corresponds
     to 0.1 degrees Celsius.
   */
-  read_correction --raw/bool -> int:
+  read-correction --raw/bool -> int:
     if not raw: throw "INVALID_ARGUMENT"
-    return read_ CORRECTION_ADDRESS_
+    return read_ CORRECTION-ADDRESS_
 
   /**
   Sets the correction value.
@@ -103,8 +103,8 @@ class R46ca01:
 
   The correction is stored in non-volatile memory.
   */
-  set_correction value/float:
-    set_correction --raw (value * 10).to_int
+  set-correction value/float:
+    set-correction --raw (value * 10).to-int
 
   /**
   Sets the correction value.
@@ -115,9 +115,9 @@ class R46ca01:
 
   The correction is stored in non-volatile memory.
   */
-  set_correction --raw value/int:
+  set-correction --raw value/int:
     if not raw: throw "INVALID_ARGUMENT"
-    write_ --address=CORRECTION_ADDRESS_ value
+    write_ --address=CORRECTION-ADDRESS_ value
 
   /**
   Changes the unit id (also known as "server address", or "station address") to the given $id.
@@ -127,36 +127,36 @@ class R46ca01:
 
   The $id must be in range 1-247.
   */
-  set_unit_id id/int:
+  set-unit-id id/int:
     if not 1 <= id <= 247: throw "INVALID_ARGUMENT"
-    write_ --address=UNIT_ID_ADDRESS_ id
+    write_ --address=UNIT-ID-ADDRESS_ id
 
   /**
   Sets the baud rate of the sensor.
 
   The change will only take effect after a reboot of the sensor.
 
-  The $baud_rate must be one of:
+  The $baud-rate must be one of:
   - 1200
   - 2400
   - 4800
   - 9600 (default)
   - 19200
   */
-  set_baud_rate baud_rate/int:
-    register_value /int := ?
-    if baud_rate == 1200: register_value = BAUD_RATE_1200_
-    else if baud_rate == 2400: register_value = BAUD_RATE_2400_
-    else if baud_rate == 4800: register_value = BAUD_RATE_4800_
-    else if baud_rate == 9600: register_value = BAUD_RATE_9600_
-    else if baud_rate == 19200: register_value = BAUD_RATE_19200_
+  set-baud-rate baud-rate/int:
+    register-value /int := ?
+    if baud-rate == 1200: register-value = BAUD-RATE-1200_
+    else if baud-rate == 2400: register-value = BAUD-RATE-2400_
+    else if baud-rate == 4800: register-value = BAUD-RATE-4800_
+    else if baud-rate == 9600: register-value = BAUD-RATE-9600_
+    else if baud-rate == 19200: register-value = BAUD-RATE-19200_
     else: throw "INVALID_ARGUMENT"
-    write_ --address=BAUD_RATE_ADDRESS_ register_value
+    write_ --address=BAUD-RATE-ADDRESS_ register-value
 
   read_ address/int -> int:
     // Note that the R46CA01 must use function 0x03 (read holding registers) and 0x06 (write single holding register).
     // Other functions are not officially supported.
-    return registers_.read_int16 --address=address
+    return registers_.read-int16 --address=address
 
   write_ --address/int value/int:
-    registers_.write_single --address=address value
+    registers_.write-single --address=address value

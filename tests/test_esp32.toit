@@ -20,69 +20,69 @@ RTS ::= 18
 main:
   print "starting"
 
-  log.set_default (log.default.with_level log.INFO_LEVEL)
-  pin_rx := gpio.Pin RX
-  pin_tx := gpio.Pin TX
-  pin_rts := gpio.Pin RTS
+  log.set-default (log.default.with-level log.INFO-LEVEL)
+  pin-rx := gpio.Pin RX
+  pin-tx := gpio.Pin TX
+  pin-rts := gpio.Pin RTS
 
-  rs485_bus := rs485.Rs485
-      --rx=pin_rx
-      --tx=pin_tx
-      --rts=pin_rts
-      --baud_rate=r46ca01.R46ca01.DEFAULT_BAUD_RATE
-  bus := modbus.Modbus.rtu rs485_bus
+  rs485-bus := rs485.Rs485
+      --rx=pin-rx
+      --tx=pin-tx
+      --rts=pin-rts
+      --baud-rate=r46ca01.R46ca01.DEFAULT-BAUD-RATE
+  bus := modbus.Modbus.rtu rs485-bus
 
   // Assume that the sensor is the only one on the bus.
   sensor := r46ca01.R46ca01.detect bus
 
-  sensor.set_correction 0.0
-  temperature := sensor.read_temperature
-  expect_equals 0.0 sensor.read_correction
-  expect_equals 0 (sensor.read_correction --raw)
+  sensor.set-correction 0.0
+  temperature := sensor.read-temperature
+  expect-equals 0.0 sensor.read-correction
+  expect-equals 0 (sensor.read-correction --raw)
 
-  sensor.set_correction 20.0
-  expect_equals 20.0 sensor.read_correction
-  expect_equals 200 (sensor.read_correction --raw)
-  changed_temperature := sensor.read_temperature
+  sensor.set-correction 20.0
+  expect-equals 20.0 sensor.read-correction
+  expect-equals 200 (sensor.read-correction --raw)
+  changed-temperature := sensor.read-temperature
   // Allow for 0.5 degrees change in the short time.
-  expect 19.5 < changed_temperature - temperature < 20.5
+  expect 19.5 < changed-temperature - temperature < 20.5
 
-  sensor.set_correction -20.0
-  expect_equals -20.0 sensor.read_correction
-  expect_equals -200 (sensor.read_correction --raw)
-  changed_temperature = sensor.read_temperature
+  sensor.set-correction -20.0
+  expect-equals -20.0 sensor.read-correction
+  expect-equals -200 (sensor.read-correction --raw)
+  changed-temperature = sensor.read-temperature
   // Allow for 0.5 degrees change in the short time.
-  expect -20.5 < changed_temperature - temperature < -19.5
+  expect -20.5 < changed-temperature - temperature < -19.5
 
-  sensor.set_correction --raw 10
-  expect_equals 1.0 sensor.read_correction
-  expect_equals 10 (sensor.read_correction --raw)
+  sensor.set-correction --raw 10
+  expect-equals 1.0 sensor.read-correction
+  expect-equals 10 (sensor.read-correction --raw)
 
-  sensor.set_correction --raw -10
-  expect_equals -1.0 sensor.read_correction
-  expect_equals -10 (sensor.read_correction --raw)
+  sensor.set-correction --raw -10
+  expect-equals -1.0 sensor.read-correction
+  expect-equals -10 (sensor.read-correction --raw)
 
-  sensor.set_correction --raw 0
+  sensor.set-correction --raw 0
 
-  old_id := r46ca01.R46ca01.detect_unit_id bus
-  print "current unit id: $old_id"
+  old-id := r46ca01.R46ca01.detect-unit-id bus
+  print "current unit id: $old-id"
 
-  sensor.set_unit_id 5
-  expect_equals 5 (r46ca01.R46ca01.detect_unit_id bus)
+  sensor.set-unit-id 5
+  expect-equals 5 (r46ca01.R46ca01.detect-unit-id bus)
   sensor5 := r46ca01.R46ca01 (bus.station 5)
-  expect (sensor5.read_temperature - temperature).abs < 0.5
+  expect (sensor5.read-temperature - temperature).abs < 0.5
 
-  sensor5.set_unit_id 6
-  expect_equals 6 (r46ca01.R46ca01.detect_unit_id bus)
+  sensor5.set-unit-id 6
+  expect-equals 6 (r46ca01.R46ca01.detect-unit-id bus)
   sensor6 := r46ca01.R46ca01 (bus.station 6)
-  expect (sensor6.read_temperature - temperature).abs < 0.5
+  expect (sensor6.read-temperature - temperature).abs < 0.5
 
   print "Switching back to old unit id"
-  sensor6.set_unit_id old_id
+  sensor6.set-unit-id old-id
 
-  if old_id != 5:
-    expect_throw DEADLINE_EXCEEDED_ERROR: sensor5.read_temperature
+  if old-id != 5:
+    expect-throw DEADLINE-EXCEEDED-ERROR: sensor5.read-temperature
   else:
-    expect_throw DEADLINE_EXCEEDED_ERROR: sensor6.read_temperature
+    expect-throw DEADLINE-EXCEEDED-ERROR: sensor6.read-temperature
 
   print "done"
