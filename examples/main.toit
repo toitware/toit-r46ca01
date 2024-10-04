@@ -17,18 +17,18 @@ TX ::= 16
 RTS ::= 18
 
 main:
-  pin_rx := gpio.Pin RX
-  pin_tx := gpio.Pin TX
-  pin_rts := gpio.Pin RTS
+  pin-rx := gpio.Pin RX
+  pin-tx := gpio.Pin TX
+  pin-rts := gpio.Pin RTS
 
-  rs485_bus := rs485.Rs485
-      --rx=pin_rx
-      --tx=pin_tx
-      --rts=pin_rts
-      --baud_rate=r46ca01.R46ca01.DEFAULT_BAUD_RATE
-  bus := modbus.Modbus.rtu rs485_bus
+  rs485-bus := rs485.Rs485
+      --rx=pin-rx
+      --tx=pin-tx
+      --rts=pin-rts
+      --baud-rate=r46ca01.R46ca01.DEFAULT-BAUD-RATE
+  bus := modbus.Modbus.rtu rs485-bus
 
   // Assume that the sensor is the only one on the bus.
   sensor := r46ca01.R46ca01.detect bus
 
-  print sensor.read_temperature
+  print sensor.read-temperature
