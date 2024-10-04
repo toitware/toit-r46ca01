@@ -1,4 +1,4 @@
-name: r46cA01
+name: r46ca01
 description: Driver for the R46CA01 temperature sensor.
 dependencies:
   modbus:
